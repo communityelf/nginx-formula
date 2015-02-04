@@ -4,7 +4,7 @@
     {% endfor %}
 {% endmacro %}
 
-{% set nginx = salt['pillar.get']('nginx:ng', {
+{% set nginx = salt['pillar.get']('nginx', {
     'lookup': salt['grains.filter_by']({
         'Debian': {
             'package': 'nginx',

@@ -1,8 +1,8 @@
-# nginx.ng.install
+# nginx.install
 #
 # Manages installation of nginx.
 
-{% from 'nginx/ng/map.jinja' import nginx, sls_block with context %}
+{% from 'nginx/map.jinja' import nginx, sls_block with context %}
 
 nginx_install:
   {% if nginx.install_from_source %}

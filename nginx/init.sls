@@ -3,9 +3,9 @@
 # Meta-state to fully install nginx.
 
 include:
-  - nginx.ng.config
-  - nginx.ng.service
-  - nginx.ng.vhosts
+  - nginx.config
+  - nginx.service
+  - nginx.vhosts
 
 extend:
   nginx_service:

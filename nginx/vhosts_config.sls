@@ -1,8 +1,8 @@
-# nginx.ng.vhosts_config
+# nginx.vhosts_config
 #
 # Manages the configuration of virtual host files.
 
-{% from 'nginx/ng/map.jinja' import nginx, sls_block with context %}
+{% from 'nginx/map.jinja' import nginx, sls_block with context %}
 {% set vhost_states = [] %}
 
 # Simple path concatenation.
@@ -84,13 +84,13 @@ nginx_vhost_available_dir:
 
 # Managed enabled/disabled state for vhosts
 {% for vhost, settings in nginx.vhosts.managed.items() %}
-{% if settings.config != None %}
+{% if settings.config != None and 'source' in settings %}
 {% set conf_state_id = 'vhost_conf_' ~ loop.index0 %}
 {{ conf_state_id }}:
   file.managed:
     {{ sls_block(nginx.vhosts.managed_opts) }}
     - name: {{ vhost_curpath(vhost) }}
-    - source: salt://nginx/ng/files/vhost.conf
+    - source: {{ settings.source }}
     - template: jinja
     - context:
         config: {{ settings.config|json() }}
@@ -101,7 +101,7 @@ nginx_vhost_available_dir:
 {% set status_state_id = 'vhost_state_' ~ loop.index0 %}
 {{ status_state_id }}:
 {{ manage_status(vhost, settings.enabled) }}
-{% if settings.config != None %}
+{% if settings.config != None and 'source' in settings %}
     - require:
       - file: {{ conf_state_id }}
 {% endif %}

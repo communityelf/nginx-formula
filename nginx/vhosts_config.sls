@@ -101,7 +101,7 @@ nginx_vhost_available_dir:
 {% set status_state_id = 'vhost_state_' ~ loop.index0 %}
 {{ status_state_id }}:
 {{ manage_status(vhost, settings.enabled) }}
-{% if 'config' in settings and settings.config != None and 'source' in settings %}
+{% if 'source' in settings and settings.source != None %}
     - require:
       - file: {{ conf_state_id }}
 {% endif %}

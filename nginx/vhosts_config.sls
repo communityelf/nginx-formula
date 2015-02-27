@@ -97,7 +97,7 @@ nginx_vhost_available_dir:
 {% do vhost_states.append(conf_state_id) %}
 {% endif %}
 
-{% settings.enabled != None %}
+{% if settings.enabled != None %}
 {% set status_state_id = 'vhost_state_' ~ loop.index0 %}
 {{ status_state_id }}:
 {{ manage_status(vhost, settings.enabled) }}

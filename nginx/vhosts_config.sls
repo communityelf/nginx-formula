@@ -84,7 +84,7 @@ nginx_vhost_available_dir:
 
 # Managed enabled/disabled state for vhosts
 {% for vhost, settings in nginx.vhosts.managed.items() %}
-{% if 'config' in settings and settings.config != None and 'source' in settings %}
+{% if 'source' in settings and settings.source != None %}
 {% set conf_state_id = 'vhost_conf_' ~ loop.index0 %}
 {{ conf_state_id }}:
   file.managed:
@@ -93,11 +93,11 @@ nginx_vhost_available_dir:
     - source: {{ settings.source }}
     - template: jinja
     - context:
-        config: {{ nginx.vhosts.global_config.update(settings.config)|json() }}
+        config: {{ nginx.vhosts.get('global_config', {}).update(settings.get('config', {})|json() }}
 {% do vhost_states.append(conf_state_id) %}
 {% endif %}
 
-{% if 'enabled' in settings and settings.enabled != None %}
+{% settings.enabled != None %}
 {% set status_state_id = 'vhost_state_' ~ loop.index0 %}
 {{ status_state_id }}:
 {{ manage_status(vhost, settings.enabled) }}

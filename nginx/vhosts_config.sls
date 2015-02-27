@@ -93,7 +93,7 @@ nginx_vhost_available_dir:
     - source: {{ settings.source }}
     - template: jinja
     - context:
-        config: {{ nginx.vhosts.get('global_config', {}).update(settings.get('config', {})|json() }}
+        config: {{ nginx.vhosts.get('global_config', {}).update(settings.get('config', {}))|json() }}
 {% do vhost_states.append(conf_state_id) %}
 {% endif %}
 
